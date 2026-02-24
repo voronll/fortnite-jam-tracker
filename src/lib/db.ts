@@ -1,4 +1,14 @@
 import { PrismaClient } from "../../generated/prisma";
+import { PrismaPg } from "@prisma/adapter-pg";
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error(
+    'DATABASE_URL is not set. Prisma 7 with engine type "client" requires an adapter (e.g. @prisma/adapter-pg) with a connection string.'
+  );
+}
+
+const adapter = new PrismaPg({ connectionString });
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
@@ -7,6 +17,7 @@ const globalForPrisma = globalThis as unknown as {
 export const db =
   globalForPrisma.prisma ??
   new PrismaClient({
+    adapter,
     log:
       process.env.NODE_ENV === "development"
         ? ["query", "error", "warn"]
