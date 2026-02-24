@@ -43,10 +43,6 @@ export function TrackCard({ track, isToday }: TrackCardProps) {
         <p className="truncate text-sm text-muted-foreground">
           {track.artist}
         </p>
-        <div className="mt-1 flex gap-2 text-xs text-muted-foreground">
-          {track.bpm != null && <span>{track.bpm} BPM</span>}
-          {track.key && <span>• Key: {track.key}</span>}
-        </div>
       </div>
     </article>
   );
