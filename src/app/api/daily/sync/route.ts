@@ -41,9 +41,9 @@ export async function GET(req: Request) {
 
     const wanted = normalizeTitle(it.title);
 
-    // SQLite não suporta mode: "insensitive"; usamos LOWER(TRIM(title)) na raw query
+    // Busca case-insensitive: em PostgreSQL a tabela criada pelo Prisma é "Track" (com aspas)
     const rows = await db.$queryRaw<{ id: string }[]>`
-      SELECT id FROM Track WHERE LOWER(TRIM(title)) = ${wanted} LIMIT 1
+      SELECT id FROM "Track" WHERE LOWER(TRIM(title)) = ${wanted} LIMIT 1
     `;
     const track = rows[0] ?? null;
 
