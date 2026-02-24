@@ -1,0 +1,33 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+model Track {
+  id        String  @id         // slug (ex: "abarsong")
+  sid       String? @unique     // ex: "SID_Placeholder_575"
+  title     String
+  artist    String
+  bpm       Int?
+  key       String?
+  coverUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rotations DailyRotation[]
+}
+
+model DailyRotation {
+  id      Int    @id @default(autoincrement())
+  date    String
+  trackId String
+
+  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@unique([date, trackId])
+  @@index([date])
+}
