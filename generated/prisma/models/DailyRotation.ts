@@ -386,6 +386,7 @@ export type DailyRotationCreateOrConnectWithoutTrackInput = {
 
 export type DailyRotationCreateManyTrackInputEnvelope = {
   data: Prisma.DailyRotationCreateManyTrackInput | Prisma.DailyRotationCreateManyTrackInput[]
+  skipDuplicates?: boolean
 }
 
 export type DailyRotationUpsertWithWhereUniqueWithoutTrackInput = {
@@ -1137,6 +1138,7 @@ export type DailyRotationCreateManyArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many DailyRotations.
    */
   data: Prisma.DailyRotationCreateManyInput | Prisma.DailyRotationCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1155,6 +1157,7 @@ export type DailyRotationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * The data used to create many DailyRotations.
    */
   data: Prisma.DailyRotationCreateManyInput | Prisma.DailyRotationCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

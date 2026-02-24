@@ -36,6 +36,7 @@ export type TrackSumAggregateOutputType = {
 
 export type TrackMinAggregateOutputType = {
   id: string | null
+  sid: string | null
   title: string | null
   artist: string | null
   bpm: number | null
@@ -47,6 +48,7 @@ export type TrackMinAggregateOutputType = {
 
 export type TrackMaxAggregateOutputType = {
   id: string | null
+  sid: string | null
   title: string | null
   artist: string | null
   bpm: number | null
@@ -58,6 +60,7 @@ export type TrackMaxAggregateOutputType = {
 
 export type TrackCountAggregateOutputType = {
   id: number
+  sid: number
   title: number
   artist: number
   bpm: number
@@ -79,6 +82,7 @@ export type TrackSumAggregateInputType = {
 
 export type TrackMinAggregateInputType = {
   id?: true
+  sid?: true
   title?: true
   artist?: true
   bpm?: true
@@ -90,6 +94,7 @@ export type TrackMinAggregateInputType = {
 
 export type TrackMaxAggregateInputType = {
   id?: true
+  sid?: true
   title?: true
   artist?: true
   bpm?: true
@@ -101,6 +106,7 @@ export type TrackMaxAggregateInputType = {
 
 export type TrackCountAggregateInputType = {
   id?: true
+  sid?: true
   title?: true
   artist?: true
   bpm?: true
@@ -199,6 +205,7 @@ export type TrackGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type TrackGroupByOutputType = {
   id: string
+  sid: string | null
   title: string
   artist: string
   bpm: number | null
@@ -233,6 +240,7 @@ export type TrackWhereInput = {
   OR?: Prisma.TrackWhereInput[]
   NOT?: Prisma.TrackWhereInput | Prisma.TrackWhereInput[]
   id?: Prisma.StringFilter<"Track"> | string
+  sid?: Prisma.StringNullableFilter<"Track"> | string | null
   title?: Prisma.StringFilter<"Track"> | string
   artist?: Prisma.StringFilter<"Track"> | string
   bpm?: Prisma.IntNullableFilter<"Track"> | number | null
@@ -245,6 +253,7 @@ export type TrackWhereInput = {
 
 export type TrackOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  sid?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   bpm?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -257,6 +266,7 @@ export type TrackOrderByWithRelationInput = {
 
 export type TrackWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  sid?: string
   AND?: Prisma.TrackWhereInput | Prisma.TrackWhereInput[]
   OR?: Prisma.TrackWhereInput[]
   NOT?: Prisma.TrackWhereInput | Prisma.TrackWhereInput[]
@@ -268,10 +278,11 @@ export type TrackWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Track"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Track"> | Date | string
   rotations?: Prisma.DailyRotationListRelationFilter
-}, "id">
+}, "id" | "sid">
 
 export type TrackOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  sid?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   bpm?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -291,6 +302,7 @@ export type TrackScalarWhereWithAggregatesInput = {
   OR?: Prisma.TrackScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TrackScalarWhereWithAggregatesInput | Prisma.TrackScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Track"> | string
+  sid?: Prisma.StringNullableWithAggregatesFilter<"Track"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"Track"> | string
   artist?: Prisma.StringWithAggregatesFilter<"Track"> | string
   bpm?: Prisma.IntNullableWithAggregatesFilter<"Track"> | number | null
@@ -302,6 +314,7 @@ export type TrackScalarWhereWithAggregatesInput = {
 
 export type TrackCreateInput = {
   id: string
+  sid?: string | null
   title: string
   artist: string
   bpm?: number | null
@@ -314,6 +327,7 @@ export type TrackCreateInput = {
 
 export type TrackUncheckedCreateInput = {
   id: string
+  sid?: string | null
   title: string
   artist: string
   bpm?: number | null
@@ -326,6 +340,7 @@ export type TrackUncheckedCreateInput = {
 
 export type TrackUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   bpm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -338,6 +353,7 @@ export type TrackUpdateInput = {
 
 export type TrackUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   bpm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -350,6 +366,7 @@ export type TrackUncheckedUpdateInput = {
 
 export type TrackCreateManyInput = {
   id: string
+  sid?: string | null
   title: string
   artist: string
   bpm?: number | null
@@ -361,6 +378,7 @@ export type TrackCreateManyInput = {
 
 export type TrackUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   bpm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -372,6 +390,7 @@ export type TrackUpdateManyMutationInput = {
 
 export type TrackUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   bpm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -383,6 +402,7 @@ export type TrackUncheckedUpdateManyInput = {
 
 export type TrackCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sid?: Prisma.SortOrder
   title?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   bpm?: Prisma.SortOrder
@@ -398,6 +418,7 @@ export type TrackAvgOrderByAggregateInput = {
 
 export type TrackMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sid?: Prisma.SortOrder
   title?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   bpm?: Prisma.SortOrder
@@ -409,6 +430,7 @@ export type TrackMaxOrderByAggregateInput = {
 
 export type TrackMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sid?: Prisma.SortOrder
   title?: Prisma.SortOrder
   artist?: Prisma.SortOrder
   bpm?: Prisma.SortOrder
@@ -431,16 +453,16 @@ export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -463,6 +485,7 @@ export type TrackUpdateOneRequiredWithoutRotationsNestedInput = {
 
 export type TrackCreateWithoutRotationsInput = {
   id: string
+  sid?: string | null
   title: string
   artist: string
   bpm?: number | null
@@ -474,6 +497,7 @@ export type TrackCreateWithoutRotationsInput = {
 
 export type TrackUncheckedCreateWithoutRotationsInput = {
   id: string
+  sid?: string | null
   title: string
   artist: string
   bpm?: number | null
@@ -501,6 +525,7 @@ export type TrackUpdateToOneWithWhereWithoutRotationsInput = {
 
 export type TrackUpdateWithoutRotationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   bpm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -512,6 +537,7 @@ export type TrackUpdateWithoutRotationsInput = {
 
 export type TrackUncheckedUpdateWithoutRotationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  sid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   artist?: Prisma.StringFieldUpdateOperationsInput | string
   bpm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -554,6 +580,7 @@ export type TrackCountOutputTypeCountRotationsArgs<ExtArgs extends runtime.Types
 
 export type TrackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  sid?: boolean
   title?: boolean
   artist?: boolean
   bpm?: boolean
@@ -567,6 +594,7 @@ export type TrackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type TrackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  sid?: boolean
   title?: boolean
   artist?: boolean
   bpm?: boolean
@@ -578,6 +606,7 @@ export type TrackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type TrackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  sid?: boolean
   title?: boolean
   artist?: boolean
   bpm?: boolean
@@ -589,6 +618,7 @@ export type TrackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type TrackSelectScalar = {
   id?: boolean
+  sid?: boolean
   title?: boolean
   artist?: boolean
   bpm?: boolean
@@ -598,7 +628,7 @@ export type TrackSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TrackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "artist" | "bpm" | "key" | "coverUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["track"]>
+export type TrackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sid" | "title" | "artist" | "bpm" | "key" | "coverUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["track"]>
 export type TrackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rotations?: boolean | Prisma.Track$rotationsArgs<ExtArgs>
   _count?: boolean | Prisma.TrackCountOutputTypeDefaultArgs<ExtArgs>
@@ -613,6 +643,7 @@ export type $TrackPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    sid: string | null
     title: string
     artist: string
     bpm: number | null
@@ -1045,6 +1076,7 @@ export interface Prisma__TrackClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface TrackFieldRefs {
   readonly id: Prisma.FieldRef<"Track", 'String'>
+  readonly sid: Prisma.FieldRef<"Track", 'String'>
   readonly title: Prisma.FieldRef<"Track", 'String'>
   readonly artist: Prisma.FieldRef<"Track", 'String'>
   readonly bpm: Prisma.FieldRef<"Track", 'Int'>
@@ -1281,6 +1313,7 @@ export type TrackCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * The data used to create many Tracks.
    */
   data: Prisma.TrackCreateManyInput | Prisma.TrackCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1299,6 +1332,7 @@ export type TrackCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many Tracks.
    */
   data: Prisma.TrackCreateManyInput | Prisma.TrackCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
