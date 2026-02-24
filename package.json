@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "auth:fn": "node scripts/auth.mjs"
+    "auth:fn": "node scripts/auth.mjs",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma migrate deploy && next build"
   },
   "dependencies": {
     "@prisma/client": "^7.4.1",
