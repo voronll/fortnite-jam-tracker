@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDebounce } from "@/lib/useDebounce";
 import type { Track } from "@/types/track";
 import { SearchBar } from "@/components/SearchBar";
@@ -92,26 +92,50 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const threshold = 60;
+    let rafId: number | null = null;
     function onScroll() {
-      setScrolled(window.scrollY > threshold);
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > threshold);
+        rafId = null;
+      });
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
+
+  const headerRef = useRef<HTMLElement>(null);
+  const [headerHeight, setHeaderHeight] = useState(220);
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      setHeaderHeight(el.offsetHeight);
+    });
+    ro.observe(el);
+    setHeaderHeight(el.offsetHeight);
+    return () => ro.disconnect();
+  }, [scrolled]);
 
   return (
     <main className="relative min-h-screen">
       <AudioWaveBackground />
 
-      <header className="fixed left-0 right-0 top-0 z-20 border-b border-white/10 bg-background/75 shadow-lg shadow-black/20 backdrop-blur-md transition-[padding] duration-200">
+      <header
+        ref={headerRef}
+        className="header-scroll-transition fixed left-0 right-0 top-0 z-20 border-b border-white/10 bg-background/75 shadow-lg shadow-black/20 backdrop-blur-md"
+      >
         <div className={`mx-auto max-w-3xl px-4 sm:px-6 ${scrolled ? "py-2.5 sm:py-3" : "py-5 sm:py-6"}`}>
-          <div className={`text-center transition-[margin] duration-200 ${scrolled ? "mb-3" : "mb-5"}`}>
-            <h1 className={`font-bold tracking-tight text-foreground transition-[font-size] duration-200 ${scrolled ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl"}`}>
+          <div className={`text-center ${scrolled ? "mb-3" : "mb-5"}`}>
+            <h1 className={`font-bold tracking-tight text-foreground ${scrolled ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl"}`}>
               Fortnite <span className="text-accent">Jam</span> Tracker
             </h1>
             <p
-              className={`overflow-hidden text-sm text-muted-foreground transition-all duration-200 ${scrolled ? "mt-0 max-h-0 opacity-0" : "mt-1.5 max-h-12 opacity-100"}`}
+              className={`overflow-hidden text-sm text-muted-foreground origin-top ${scrolled ? "mt-0 max-h-0 scale-y-0 opacity-0" : "mt-1.5 max-h-12 scale-y-100 opacity-100"}`}
               aria-hidden={scrolled}
             >
               Veja as músicas de hoje no Festival ou faça uma busca no catálogo.
@@ -128,7 +152,10 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto max-w-3xl px-4 pt-52 pb-20 sm:px-6 sm:pt-56 sm:pb-24">
+      <div
+        className="relative z-10 mx-auto max-w-3xl px-4 pb-20 sm:px-6 sm:pb-24"
+        style={{ paddingTop: headerHeight + 8 }}
+      >
         {isSearching ? (
           <section aria-label="Resultados da busca" className="space-y-4">
             <h2 className="text-lg font-semibold text-foreground">

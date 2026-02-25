@@ -65,3 +65,26 @@ body {
 .animate-corner-wave {
   animation: corner-wave 4s ease-in-out infinite;
 }
+
+/* Header ao scroll: transições suaves (60fps) */
+.header-scroll-transition,
+.header-scroll-transition > div,
+.header-scroll-transition .text-center,
+.header-scroll-transition h1,
+.header-scroll-transition p {
+  transition-duration: 320ms;
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  transition-property: padding, margin, font-size, opacity, max-height, transform;
+}
+.header-scroll-transition > div {
+  transition-property: padding;
+}
+.header-scroll-transition .text-center {
+  transition-property: margin;
+}
+.header-scroll-transition h1 {
+  transition-property: font-size;
+}
+.header-scroll-transition p {
+  transition-property: opacity, max-height, transform, margin-top;
+}
