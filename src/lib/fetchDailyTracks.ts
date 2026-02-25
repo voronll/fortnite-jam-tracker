@@ -36,11 +36,10 @@ function extractSID(html: string): string | null {
 function extractTitleAndArtist(html: string): { title: string | null; artist: string | null } {
   const $ = cheerio.load(html);
 
-  // Preferir h1, mas se vier vazio, cair pro <title>
   const h1 = $("h1").first().text().trim();
   const pageTitle = $("title").text().trim();
 
-  const raw = h1 || pageTitle; // algo como: "A Bar Song (Tipsy) - Shaboozey"
+  const raw = h1 || pageTitle;
   if (!raw) return { title: null, artist: null };
 
   let title: string | null = null;
@@ -54,7 +53,6 @@ function extractTitleAndArtist(html: string): { title: string | null; artist: st
     title = raw.trim() || null;
   }
 
-  // Remove sufixos comuns no <title> (caso use fallback)
   if (title) {
     title = title.replace(/\s*\|\s*Fortnite\.GG.*$/i, "").trim();
     title = title.replace(/\s*-\s*Fortnite\.GG.*$/i, "").trim();
@@ -71,7 +69,6 @@ function extractTitleAndArtist(html: string): { title: string | null; artist: st
 function extractCosmeticIdsFromHtml(html: string): string[] {
   const ids: string[] = [];
 
-  // 1) DOM (se existir)
   try {
     const $ = cheerio.load(html);
     const domIds = $("a.jam")
@@ -83,15 +80,12 @@ function extractCosmeticIdsFromHtml(html: string): string[] {
       .get()
       .filter(Boolean) as string[];
     ids.push(...domIds);
-  } catch {
-    // ignore
+  } catch { 
   }
 
-  // 2) Regex solto: cosmetics?id=12345 em qualquer lugar
   const anywhereCosmetics = /cosmetics\?id=(\d+)/g;
   for (const m of html.matchAll(anywhereCosmetics)) ids.push(m[1]);
 
-  // 3) Regex modal permissivo: modal(123,"item"...)
   const modalRe = /modal\(\s*(\d+)[\s\S]*?["']item["'][\s\S]*?\)/g;
   for (const m of html.matchAll(modalRe)) ids.push(m[1]);
 
@@ -101,11 +95,6 @@ function extractCosmeticIdsFromHtml(html: string): string[] {
 export async function fetchDailyFromFortniteGG(): Promise<DailyGGItem[]> {
   const dailyHtml = await fetchText("https://fortnite.gg/daily-jam-tracks");
   const cosmeticIds = extractCosmeticIdsFromHtml(dailyHtml);
-
-  // Debug opcional: deixe comentado em produção
-  // console.log("dailyHtml length:", dailyHtml.length);
-  // console.log("cosmeticIds found:", cosmeticIds.length);
-  // console.log("cosmeticIds sample:", cosmeticIds.slice(0, 10));
 
   const out: DailyGGItem[] = [];
 

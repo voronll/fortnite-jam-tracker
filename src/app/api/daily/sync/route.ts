@@ -41,7 +41,6 @@ export async function GET(req: Request) {
 
     const wanted = normalizeTitle(it.title);
 
-    // Busca case-insensitive: em PostgreSQL a tabela criada pelo Prisma é "Track" (com aspas)
     const rows = await db.$queryRaw<{ id: string }[]>`
       SELECT id FROM "Track" WHERE LOWER(TRIM(title)) = ${wanted} LIMIT 1
     `;
@@ -53,7 +52,7 @@ export async function GET(req: Request) {
     }
 
     await db.dailyRotation.create({
-      data: { date, trackId: track.id }, // track.id = slug
+      data: { date, trackId: track.id },
     });
 
     inserted++;

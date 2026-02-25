@@ -28,3 +28,40 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   min-height: 100vh;
 }
+
+/* Audiowave: movimento mais orgânico (curva suave, sem corte no loop) */
+@keyframes audiowave {
+  0%, 100% {
+    transform: scaleY(0.32);
+  }
+  22% {
+    transform: scaleY(0.65);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  78% {
+    transform: scaleY(0.58);
+  }
+}
+
+/* Cantos: leve pulsação */
+@keyframes corner-wave {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.4;
+  }
+}
+
+.animate-audiowave {
+  animation: audiowave 1.2s ease-in-out infinite;
+}
+
+.animate-corner-wave {
+  animation: corner-wave 4s ease-in-out infinite;
+}

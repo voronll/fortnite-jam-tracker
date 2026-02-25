@@ -18,7 +18,6 @@ type EpicTrackEntry = {
     const res = await fetch(
       "https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game/spark-tracks",
       {
-        // evita cache “velho” no server
         cache: "no-store",
       }
     );
@@ -29,14 +28,13 @@ type EpicTrackEntry = {
   
     const data: EpicResponse = await res.json();
   
-    // Normaliza pro nosso formato
     const tracks = Object.entries(data)
       .map(([slug, entry]) => {
         const t = entry?.track;
         if (!t?.tt || !t?.an) return null;
   
         return {
-          id: slug, // usamos o slug como ID estável
+          id: slug,
           title: t.tt.trim(),
           artist: t.an.trim(),
           bpm: typeof t.mt === "number" ? t.mt : null,

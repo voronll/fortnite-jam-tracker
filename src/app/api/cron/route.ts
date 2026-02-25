@@ -6,7 +6,6 @@ import { fetchDailyFromFortniteGG } from "@/lib/fetchDailyTracks";
 export const runtime = "nodejs";
 
 function isVercelCron(req: Request) {
-  // Header enviado automaticamente em execuções de cron na Vercel
   return req.headers.get("x-vercel-cron") === "1";
 }
 
@@ -25,7 +24,7 @@ export async function GET(req: Request) {
   let catalogUpserted = 0;
   for (const t of epicTracks) {
     await db.track.upsert({
-      where: { id: t.id }, // slug
+      where: { id: t.id },
       update: {
         title: t.title,
         artist: t.artist,
@@ -49,7 +48,6 @@ export async function GET(req: Request) {
   const date = todayUTC();
   const dailyItems = await fetchDailyFromFortniteGG();
 
-  // idempotente: limpa o dia e regrava
   await db.dailyRotation.deleteMany({ where: { date } });
 
   let dailyInserted = 0;
