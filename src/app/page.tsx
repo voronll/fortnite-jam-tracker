@@ -28,7 +28,10 @@ export default function Home() {
       try {
         setDailyLoading(true);
         setDailyError(null);
-        const res = await fetch("/api/daily");
+        // Usa a data local do usuário para "hoje" (evita lista vazia após 21h no Brasil, quando em UTC já é o dia seguinte)
+        const now = new Date();
+        const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        const res = await fetch(`/api/daily?date=${localDate}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = (await res.json()) as Track[];
         if (cancelled) return;

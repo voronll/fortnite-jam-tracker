@@ -5,6 +5,7 @@ export const runtime = "nodejs";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
+  // date: opcional; se não vier, usa hoje em UTC. O front pode enviar a data local do usuário (YYYY-MM-DD) para evitar "dia seguinte" em UTC após ~21h em fusos a oeste de UTC.
   const date = (searchParams.get("date") ?? todayUTC()).trim();
 
   const rows = await db.dailyRotation.findMany({
