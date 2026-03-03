@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
   type ReactNode,
@@ -12,6 +13,8 @@ import {
 type PreviewPlayerContextValue = {
   /** ID da track que está tocando (para destacar o card). */
   currentTrackId: string | null;
+  /** Progresso da faixa atual (0 a 1). */
+  progress: number;
   /** Toca a URL do preview. Passar trackId opcional para highlight no card. */
   playPreview: (url: string, trackId?: string) => void;
   /** Pausa e limpa o player. */
@@ -36,6 +39,36 @@ export function PreviewPlayerProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentTrackId, setCurrentTrackId] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el) return;
+
+    const onTimeUpdate = () => {
+      const { currentTime, duration } = el;
+      if (duration > 0 && Number.isFinite(duration)) {
+        setProgress(currentTime / duration);
+      }
+    };
+
+    const onLoadedMetadata = () => {
+      setProgress(0);
+    };
+
+    const onEnded = () => {
+      setProgress(0);
+    };
+
+    el.addEventListener("timeupdate", onTimeUpdate);
+    el.addEventListener("loadedmetadata", onLoadedMetadata);
+    el.addEventListener("ended", onEnded);
+    return () => {
+      el.removeEventListener("timeupdate", onTimeUpdate);
+      el.removeEventListener("loadedmetadata", onLoadedMetadata);
+      el.removeEventListener("ended", onEnded);
+    };
+  }, []);
 
   const stop = useCallback(() => {
     const el = audioRef.current;
@@ -46,6 +79,7 @@ export function PreviewPlayerProvider({ children }: { children: ReactNode }) {
     }
     setCurrentTrackId(null);
     setIsPlaying(false);
+    setProgress(0);
   }, []);
 
   const playPreview = useCallback(
@@ -59,10 +93,12 @@ export function PreviewPlayerProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      setProgress(0);
       el.src = url;
       el.play().catch(() => {
         setCurrentTrackId(null);
         setIsPlaying(false);
+        setProgress(0);
       });
       setCurrentTrackId(trackId ?? null);
       setIsPlaying(true);
@@ -73,6 +109,7 @@ export function PreviewPlayerProvider({ children }: { children: ReactNode }) {
   const handleEnded = useCallback(() => {
     setCurrentTrackId(null);
     setIsPlaying(false);
+    setProgress(0);
   }, []);
 
   const handlePause = useCallback(() => {
@@ -85,6 +122,7 @@ export function PreviewPlayerProvider({ children }: { children: ReactNode }) {
 
   const value: PreviewPlayerContextValue = {
     currentTrackId,
+    progress,
     playPreview,
     stop,
     isPlaying,
