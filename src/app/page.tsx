@@ -28,10 +28,9 @@ export default function Home() {
       try {
         setDailyLoading(true);
         setDailyError(null);
-        // Usa a data local do usuário para "hoje" (evita lista vazia após 21h no Brasil, quando em UTC já é o dia seguinte)
-        const now = new Date();
-        const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-        const res = await fetch(`/api/daily?date=${localDate}`);
+        // Usa a mesma data que o cron/sync grava (UTC), para bater com as rotinas diárias
+        const dateUTC = new Date().toISOString().slice(0, 10);
+        const res = await fetch(`/api/daily?date=${dateUTC}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = (await res.json()) as Track[];
         if (cancelled) return;
