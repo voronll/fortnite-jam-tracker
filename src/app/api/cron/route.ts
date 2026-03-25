@@ -5,8 +5,17 @@ import { fetchDailyFromFortniteGG } from "@/lib/fetchDailyTracks";
 
 export const runtime = "nodejs";
 
-function isVercelCron(req: Request) {
-  return req.headers.get("x-vercel-cron") === "1";
+/** Cron da Vercel: com CRON_SECRET, valida Authorization Bearer. Sem CRON_SECRET, aceita x-vercel-cron ou User-Agent vercel-cron. */
+function isAuthorizedCron(req: Request) {
+  const secret = process.env.CRON_SECRET;
+  const auth = req.headers.get("authorization");
+
+  if (secret) {
+    return auth === `Bearer ${secret}`;
+  }
+
+  const ua = req.headers.get("user-agent") ?? "";
+  return req.headers.get("x-vercel-cron") === "1" || ua.includes("vercel-cron");
 }
 
 function normalizeTitle(s: string) {
@@ -14,7 +23,7 @@ function normalizeTitle(s: string) {
 }
 
 export async function GET(req: Request) {
-  if (!isVercelCron(req)) {
+  if (!isAuthorizedCron(req)) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
